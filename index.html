@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Korra Vinod Kumar — Business Development &amp; Enterprise Sales</title>
+<meta property="og:title" content="Korra Vinod Kumar — Enterprise Sales & Business Development">
+<meta property="og:description" content="6+ years running B2B sales cycles in cloud, CRM, and SaaS solutions. Dual-degree IIT Madras graduate.">
+<meta property="og:image" content="https://yourdomain.com/assets/og-preview.jpg">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,380;0,9..144,500;0,9..144,600;1,9..144,380;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -242,21 +246,9 @@
     .cred-col:first-child{border-right:none;border-bottom:1px solid var(--line);}
   }
 
-  /* ---------- CONTACT / FOOTER ---------- */
-  footer.contact{padding:110px 0 64px;border-top:1px solid var(--line);}
-  .contact-inner{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;}
-  .sig-photo{
-    width:96px;height:96px;border-radius:50%;overflow:hidden;border:1px solid var(--line-strong);
-    flex-shrink:0;
-  }
-  .sig-photo img{width:100%;height:100%;object-fit:cover;object-position:center 15%;filter:grayscale(15%);}
-  footer.contact h2{font-size:clamp(2rem,4.6vw,3.1rem);max-width:16ch;}
-  .contact-grid{display:flex;flex-wrap:wrap;gap:30px 52px;margin-top:36px;}
-  .contact-item .k{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:6px;}
-  .contact-item .v{font-size:1.02rem;color:var(--cream);border-bottom:1px solid var(--line-strong);padding-bottom:2px;}
-  .contact-item a.v:hover{color:var(--brass);border-color:var(--brass);}
-  .foot-note{margin-top:70px;color:var(--muted);font-size:0.8rem;}
-  @media(max-width:600px){.contact-inner{grid-template-columns:1fr;text-align:left;}}
+  /* ---------- FOOTER ---------- */
+  footer.site-footer{padding:40px 0;border-top:1px solid var(--line);}
+  .foot-note{color:var(--muted);font-size:0.8rem;margin:0;}
 
   @media(max-width:640px){
     .wrap{padding:0 22px;}
@@ -275,7 +267,7 @@
       <a href="#expertise">Expertise</a>
       <a href="#experience">Experience</a>
       <a href="#credentials">Credentials</a>
-      <a href="#contact">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
@@ -409,7 +401,7 @@
 
     <div class="role-block">
       <span class="role-ghost">03</span>
-      <div class="role-head"><h3>Manager</h3><span class="role-dates">Sep 2022 — Oct 2023</span></div>
+      <div class="role-head"><h3>Business Development Manager</h3><span class="role-dates">Sep 2022 — Oct 2023</span></div>
       <div class="role-company">Ark Info Solutions Pvt Ltd</div>
       <ul>
         <li>Owned the full BD cycle from lead generation to closure, managing channel partner revenue across the south zone.</li>
@@ -451,37 +443,38 @@
     </div>
   </section>
 
-  <footer class="contact wrap" id="contact">
-    <div class="contact-inner">
-      <div class="sig-photo"><img src="1000448597.jpg" alt="Korra Vinod Kumar"></div>
-      <div>
-        <span class="idx" style="display:block;margin-bottom:14px;">Get in touch</span>
-        <h2>Open to the next enterprise sales conversation.</h2>
-      </div>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-item"><span class="k">Email</span><a class="v" href="mailto:korravinod007@gmail.com">korravinod007@gmail.com</a></div>
-      <div class="contact-item"><span class="k">Phone</span><a class="v" href="tel:+919444237836">+91 94442 37836</a></div>
-      <div class="contact-item"><span class="k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/vinod-kumar-ab312089" target="_blank" rel="noopener">vinod-kumar-ab312089</a></div>
-      <div class="contact-item"><span class="k">Location</span><span class="v">Hyderabad, India</span></div>
-    </div>
+  <footer class="site-footer wrap">
     <p class="foot-note">© 2026 Korra Vinod Kumar.</p>
   </footer>
 </main>
 
 <script>
+  let isScrolling = false;
+  window.addEventListener('scroll', () => {
+    if (!isScrolling) {
+      window.requestAnimationFrame(() => {
+        spy();
+        isScrolling = false;
+      });
+      isScrolling = true;
+    }
+  });
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
   toggle.addEventListener('click', () => links.classList.toggle('open'));
   const navAnchors = links.querySelectorAll('a');
   navAnchors.forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
 
-  const sections = document.querySelectorAll('main section[id], main > .hero');
   const spySections = Array.from(document.querySelectorAll('section[id]'));
   const spy = () => {
     let current = spySections[0];
     spySections.forEach(sec => { if (window.scrollY + 120 >= sec.offsetTop) current = sec; });
-    navAnchors.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+    navAnchors.forEach(a => {
+      const href = a.getAttribute('href');
+      if (href.startsWith('#')) {
+        a.classList.toggle('active', href === '#' + current.id);
+      }
+    });
   };
   window.addEventListener('scroll', spy);
   spy();
