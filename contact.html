@@ -53,19 +53,40 @@
       max-width:var(--maxw);margin:0 auto;padding:0 40px;
       display:flex;align-items:center;justify-content:space-between;height:72px;
     }
-    .nav-name{font-family:'Fraunces',serif;font-size:1.1rem;}
+    .nav-name{font-family:'Fraunces',serif;font-size:1.05rem;}
     .nav-name em{color:var(--brass);font-style:italic;font-weight:380;}
     nav.links{display:flex;gap:8px;align-items:center;}
     nav.links a{
-      font-size:0.9rem;color:var(--cream-dim);padding:8px 16px;
+      font-size:0.84rem;color:var(--cream-dim);padding:8px 16px;
       position:relative;transition:color .2s ease;
+    }
+    nav.links a::after{
+      content:'';position:absolute;left:16px;right:16px;bottom:4px;height:1px;
+      background:var(--brass);transform:scaleX(0);transform-origin:left;
+      transition:transform .25s ease;
     }
     nav.links a:hover{color:var(--cream);}
     nav.links a.active{color:var(--brass);}
+    nav.links a.active::after{transform:scaleX(1);}
 
-    /* ---------- CENTERED & SCALED MAIN CONTENT ---------- */
+    .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+    .nav-toggle span{display:block;width:22px;height:1.5px;background:var(--cream);margin:5px 0;}
+
+    @media(max-width:860px){
+      nav.links{
+        position:fixed;top:72px;left:0;right:0;background:var(--espresso-2);
+        flex-direction:column;align-items:stretch;gap:0;max-height:0;overflow:hidden;
+        border-bottom:1px solid var(--line);transition:max-height .3s ease;
+      }
+      nav.links.open{max-height:340px;}
+      nav.links a{padding:16px 40px;border-top:1px solid var(--line);}
+      nav.links a::after{display:none;}
+      .nav-toggle{display:block;}
+    }
+
+    /* ---------- CENTERED MAIN CONTENT ---------- */
     main{
-      min-height:100vh;
+      min-height:100dvh;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -79,7 +100,7 @@
       border-radius:16px;
       padding:64px 72px;
       width:100%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      box-shadow:0 20px 40px rgba(0,0,0,0.3);
     }
     .contact-header{
       display:grid;
@@ -111,35 +132,36 @@
       margin-bottom:12px;
     }
     .contact-header h2{
-      font-size:clamp(2rem, 3.2vw, 2.7rem);
+      font-size:clamp(1.8rem, 3.2vw, 2.7rem);
       line-height:1.25;
       color:var(--cream);
     }
 
     .contact-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-      gap:40px 48px;
-      margin-top:56px;
-      padding-top:48px;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:36px 48px;
+      margin-top:48px;
+      padding-top:40px;
       border-top:1px solid var(--line);
     }
     .contact-item .k{
       display:block;
-      font-size:0.88rem;
+      font-size:0.85rem;
       color:var(--muted);
       margin-bottom:8px;
       text-transform:uppercase;
       letter-spacing:0.05em;
     }
     .contact-item .v{
-      font-size:1.25rem;
+      font-size:1.2rem;
       font-weight:500;
       color:var(--cream);
       border-bottom:1px solid var(--line-strong);
       padding-bottom:6px;
       display:inline-block;
       transition:color .2s ease, border-color .2s ease;
+      word-break:break-word;
     }
     .contact-item a.v:hover{
       color:var(--brass);
@@ -153,11 +175,35 @@
       text-align:center;
     }
 
+    /* ---------- MOBILE RESPONSIVE ADAPTATIONS ---------- */
     @media(max-width:768px){
-      .contact-card{padding:40px 28px;}
-      .contact-header{grid-template-columns:1fr;gap:24px;text-align:left;}
-      .sig-photo{width:110px;height:110px;}
+      main{
+        padding-top:110px;
+        justify-content:flex-start;
+      }
+      .contact-card{
+        padding:36px 24px;
+      }
+      .contact-header{
+        grid-template-columns:1fr;
+        gap:20px;
+        text-align:left;
+      }
+      .sig-photo{
+        width:100px;
+        height:100px;
+      }
+      .contact-grid{
+        grid-template-columns:1fr;
+        gap:28px;
+        margin-top:36px;
+        padding-top:32px;
+      }
+    }
+
+    @media(max-width:640px){
       .wrap{padding:0 20px;}
+      .nav-inner{padding:0 20px;}
     }
   </style>
 </head>
@@ -166,13 +212,14 @@
 <header class="site">
   <div class="nav-inner">
     <div class="nav-name"><a href="index.html">Vinod <em>Kumar</em></a></div>
-    <nav class="links">
+    <nav class="links" id="navLinks">
       <a href="index.html#profile">Profile</a>
       <a href="index.html#expertise">Expertise</a>
       <a href="index.html#experience">Experience</a>
       <a href="index.html#credentials">Credentials</a>
       <a href="contact.html" class="active">Contact</a>
     </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -210,6 +257,16 @@
 
   <p class="foot-note">© 2026 Korra Vinod Kumar.</p>
 </main>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+    const navAnchors = links.querySelectorAll('a');
+    navAnchors.forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+  }
+</script>
 
 </body>
 </html>
